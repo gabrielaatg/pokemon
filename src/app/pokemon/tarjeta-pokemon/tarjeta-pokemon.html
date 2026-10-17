@@ -1,0 +1,34 @@
+<article class="tarjeta">
+    @if (cargando()) {
+        <p>Cargando {{ referencia.name }}...</p>
+    } @else if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+
+        <button type="button" (click)="cargarPokemon()">
+        Reintentar
+        </button>
+    } @else if (pokemon(); as p) {
+        @if (obtenerImagen(p); as imagen) {
+        @if (!imagenFallida()) {
+            <img
+            [src]="imagen"
+            [alt]="p.name"
+            loading="lazy"
+            width="160"
+            height="160"
+            (error)="imagenFallida.set(true)"
+            >
+        } @else {
+            <p class="sin-imagen">Imagen no disponible</p>
+        }
+        } @else {
+        <p class="sin-imagen">Imagen no disponible</p>
+        }
+
+        <p>N.º {{ p.id }}</p>
+        <h2>{{ p.name }}</h2>
+        <button type="button" (click)="seleccionar.emit(p)">
+            Ver detalle
+        </button>
+    }
+</article>

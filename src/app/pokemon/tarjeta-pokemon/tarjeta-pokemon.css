@@ -1,0 +1,35 @@
+.tarjeta {
+  min-height: 290px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #f5f8fa;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+h2 {
+  margin: 8px 0;
+  font-size: 20px;
+  text-transform: capitalize;
+}
+
+.sin-imagen {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+}
+
+.error {
+  color: #b42318;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}

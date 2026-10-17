@@ -1,0 +1,62 @@
+section {
+  padding: 24px;
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.pokemon {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f5f8fa;
+}
+
+.pokemon h2 {
+  margin: 0;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.error {
+  color: #b42318;
+}
+
+button {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.pendiente {
+  min-height: 290px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-align: center;
+}
+
+form {
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.buscador {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}

@@ -1,0 +1,62 @@
+<section>
+  <h1>{{ titulo }}</h1>
+
+  <form [formGroup]="formulario" (ngSubmit)="buscar()">
+    <label for="busqueda">Nombre o ID del Pokémon</label>
+
+    <div class="buscador">
+      <input
+        id="busqueda"
+        type="search"
+        formControlName="busqueda"
+        placeholder="Ejemplo: pikachu o 25"
+      >
+
+      <button type="submit" [disabled]="cargando()">
+        Buscar
+      </button>
+
+      <button
+        type="button"
+        (click)="verTodos()"
+        [disabled]="cargando()"
+      >
+        Ver todos
+      </button>
+    </div>
+
+    @if (
+      formulario.controls.busqueda.invalid &&
+      formulario.controls.busqueda.touched
+    ) {
+      <p class="error">Escribe un nombre o ID para buscar.</p>
+    }
+  </form>
+  @if (cargando()) {
+    <p>Cargando Pokémon...</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  } @else {
+    <p>
+      Mostrando {{ pokemones().length }} de {{ total() }} Pokémon
+    </p>
+
+   <div class="lista">
+    @for (pokemon of pokemones(); track pokemon.url) {
+      @defer (on viewport) {
+        <app-tarjeta-pokemon
+          [referencia]="pokemon"
+          (seleccionar)="verDetalle($event)"
+        />
+      } @placeholder {
+        <article class="pendiente">
+          <h2>{{ pokemon.name }}</h2>
+          <p>Imagen pendiente de cargar</p>
+        </article>
+      }
+    } @empty {
+      <p>No hay Pokémon para mostrar.</p>
+    }
+  </div>
+  }
+</section>

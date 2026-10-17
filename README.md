@@ -57,3 +57,10 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Entorno utilizado
+
+- Node.js: v24.19.0
+- Angular CLI: v21.2.6
+- Editor Visual Studio Code: v1.142.0
+- Navegador Microsoft Edge: v155.0.4283.45

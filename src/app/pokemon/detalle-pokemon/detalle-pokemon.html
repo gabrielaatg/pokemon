@@ -1,0 +1,66 @@
+<section class="detalle">
+<a routerLink="/pokemon" [queryParams]="{ q: q }">
+  ← Volver al catálogo
+</a>
+  @if (cargando()) {
+    <p>Cargando Pokémon...</p>
+  } @else if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+
+    <button type="button" (click)="cargarPokemon()">
+      Reintentar
+    </button>
+  } @else if (pokemon(); as p) {
+    <h1>{{ p.name }}</h1>
+    <p>N.° {{ p.id }}</p>
+
+    @if (obtenerImagen(p); as imagen) {
+      @if (!imagenFallida()) {
+        <img
+          [src]="imagen"
+          [alt]="p.name"
+          width="250"
+          height="250"
+          (error)="imagenFallida.set(true)"
+        >
+      } @else {
+        <p>Imagen no disponible</p>
+      }
+    } @else {
+      <p>Imagen no disponible</p>
+    }
+
+    <p><strong>Altura:</strong> {{ p.height / 10 }} m</p>
+    <p><strong>Peso:</strong> {{ p.weight / 10 }} kg</p>
+
+    <h2>Tipos</h2>
+    <ul>
+      @for (tipo of p.types; track tipo.slot) {
+        <li>{{ tipo.type.name }}</li>
+      }
+    </ul>
+
+    <h2>Habilidades</h2>
+    <ul>
+      @for (habilidad of p.abilities; track habilidad.ability.name) {
+        <li>
+          {{ habilidad.ability.name }}
+
+          @if (habilidad.is_hidden) {
+            <span>(oculta)</span>
+          }
+        </li>
+      }
+    </ul>
+
+    <h2>Estadísticas</h2>
+    <ul>
+      @for (estadistica of p.stats; track estadistica.stat.name) {
+        <li>
+          {{ estadistica.stat.name }}:
+          {{ estadistica.base_stat }}
+        </li>
+      }
+    </ul>
+  }
+</section>
