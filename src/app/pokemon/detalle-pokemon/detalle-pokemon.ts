@@ -1,16 +1,24 @@
-import { Component, Input, OnChanges, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { PokemonApi } from '../pokemon-api';
 import { Pokemon } from '../../dominio/pokemon';
 @Component({
   selector: 'app-detalle-pokemon',
-  imports: [RouterLink,],
+  imports: [RouterLink],
   templateUrl: './detalle-pokemon.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './detalle-pokemon.css',
 })
 export class DetallePokemon implements OnChanges {
-   @Input() id = '';
-   @Input() q?: string;
+  @Input() id = '';
+  @Input() q?: string;
 
   private api = inject(PokemonApi);
 
@@ -30,11 +38,11 @@ export class DetallePokemon implements OnChanges {
     this.imagenFallida.set(false);
 
     this.api.buscarPorIdONombre(this.id).subscribe({
-      next: respuesta => {
+      next: (respuesta) => {
         this.pokemon.set(respuesta);
         this.cargando.set(false);
       },
-      error: e => {
+      error: (e) => {
         if (e.status === 404) {
           this.error.set('El Pokémon solicitado no existe.');
         } else if (e.status === 0) {
@@ -44,12 +52,11 @@ export class DetallePokemon implements OnChanges {
         }
 
         this.cargando.set(false);
-      }
+      },
     });
   }
 
   obtenerImagen(pokemon: Pokemon): string | null {
-    return pokemon.sprites.other['official-artwork'].front_default
-      ?? pokemon.sprites.front_default;
+    return pokemon.sprites.other['official-artwork'].front_default ?? pokemon.sprites.front_default;
   }
 }

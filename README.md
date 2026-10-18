@@ -61,6 +61,6 @@ For more information on using the Angular CLI, including detailed command refere
 ## Entorno utilizado
 
 - Node.js: v24.19.0
-- Angular CLI: v21.2.6
+- Angular CLI: v22.2.3
 - Editor Visual Studio Code: v1.142.0
 - Navegador Microsoft Edge: v155.0.4283.45

@@ -1,6 +1,13 @@
-import { Component, Input, OnChanges, inject, signal} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
-import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 
@@ -12,7 +19,8 @@ import { TarjetaPokemon } from '../tarjeta-pokemon/tarjeta-pokemon';
   selector: 'app-lista-pokemon',
   imports: [TarjetaPokemon, ReactiveFormsModule],
   templateUrl: './lista-pokemon.html',
-  styleUrl: './lista-pokemon.css'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './lista-pokemon.css',
 })
 export class ListaPokemon implements OnChanges {
   @Input() q?: string;
@@ -29,15 +37,12 @@ export class ListaPokemon implements OnChanges {
   error = signal('');
 
   formulario = this.fb.nonNullable.group({
-    busqueda: [
-      '',
-      [Validators.required, Validators.pattern(/\S/)]
-    ]
+    busqueda: ['', [Validators.required, Validators.pattern(/\S/)]],
   });
 
   ngOnChanges(): void {
     this.formulario.patchValue({
-      busqueda: this.q ?? ''
+      busqueda: this.q ?? '',
     });
 
     this.cargarPokemones();
@@ -49,8 +54,7 @@ export class ListaPokemon implements OnChanges {
       return;
     }
 
-    const texto = this.formulario.getRawValue()
-      .busqueda.trim().toLowerCase();
+    const texto = this.formulario.getRawValue().busqueda.trim().toLowerCase();
 
     if (texto === this.q) {
       this.cargarPokemones();
@@ -58,7 +62,7 @@ export class ListaPokemon implements OnChanges {
     }
 
     this.router.navigate(['/pokemon'], {
-      queryParams: { q: texto }
+      queryParams: { q: texto },
     });
   }
 
@@ -70,46 +74,44 @@ export class ListaPokemon implements OnChanges {
 
     if (texto) {
       this.api.buscarPorIdONombre(texto).subscribe({
-        next: pokemon => {
+        next: (pokemon) => {
           this.pokemones.set([
             {
               name: pokemon.name,
-              url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}/`
-            }
+              url: `https://pokeapi.co/api/v2/pokemon/${pokemon.id}/`,
+            },
           ]);
 
           this.total.set(1);
           this.cargando.set(false);
         },
-        error: e => {
+        error: (e) => {
           this.pokemones.set([]);
           this.total.set(0);
 
           this.error.set(
             e.status === 404
               ? 'No existe un Pokémon con ese nombre o ID.'
-              : 'No se pudo realizar la búsqueda. Revisa tu conexión.'
+              : 'No se pudo realizar la búsqueda. Revisa tu conexión.',
           );
 
           this.cargando.set(false);
-        }
+        },
       });
 
       return;
     }
 
     this.api.listarTodos().subscribe({
-      next: respuesta => {
+      next: (respuesta) => {
         this.pokemones.set(respuesta.results);
         this.total.set(respuesta.count);
         this.cargando.set(false);
       },
       error: () => {
-        this.error.set(
-          'No se pudo cargar el catálogo. Revisa tu conexión.'
-        );
+        this.error.set('No se pudo cargar el catálogo. Revisa tu conexión.');
         this.cargando.set(false);
-      }
+      },
     });
   }
 
@@ -126,7 +128,7 @@ export class ListaPokemon implements OnChanges {
 
   verDetalle(pokemon: Pokemon): void {
     this.router.navigate(['/pokemon', pokemon.id], {
-      queryParams: { q: this.q }
+      queryParams: { q: this.q },
     });
   }
 }
